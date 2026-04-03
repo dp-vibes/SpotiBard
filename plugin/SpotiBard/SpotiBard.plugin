@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<Plugin>
+  <Information>
+    <Name>SpotiBard</Name>
+    <Author>dp-vibes</Author>
+    <Version>1.0</Version>
+    <Description>Control Spotify from inside LOTRO. Shows now-playing info with an in-game panel. Use global hotkeys (Ctrl+Alt+arrows) for instant controls. Requires the SpotiBridge companion app.</Description>
+  </Information>
+  <Package>SpotiBard.SpotiBard</Package>
+</Plugin>

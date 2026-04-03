@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+dist/
+build/
+*.spec
+*.egg-info/
+
+# SpotiBridge local files
+bridge/config.json
+bridge/.spotify_cache
+
+# PyInstaller
+bridge/dist/
+bridge/build/
+bridge/*.spec
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Claude
+.claude/
+
+# Release builds (built locally, not committed)
+release/

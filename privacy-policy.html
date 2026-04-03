@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpotiBard — Privacy Policy</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #333;
+            line-height: 1.7;
+        }
+        h1 { color: #1a1a1a; }
+        h2 { color: #444; margin-top: 2em; }
+        .updated { color: #888; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h1>SpotiBard — Privacy Policy</h1>
+    <p class="updated">Last updated: April 2, 2026</p>
+
+    <h2>What is SpotiBard?</h2>
+    <p>SpotiBard is a free, open-source companion app that lets Lord of the Rings Online (LOTRO) players control Spotify playback from inside the game. It consists of a Windows companion app (SpotiBridge) and a LOTRO Lua plugin.</p>
+
+    <h2>What data does SpotiBard access?</h2>
+    <p>When you authorize SpotiBard with your Spotify account, it requests permission to:</p>
+    <ul>
+        <li>View your current playback state (what song is playing, progress, etc.)</li>
+        <li>Control playback (play, pause, skip, volume)</li>
+        <li>View your playlists</li>
+    </ul>
+    <p>This is the minimum access needed for SpotiBard to work. It cannot access your email, payment info, listening history, or any other Spotify account data.</p>
+
+    <h2>What data does SpotiBard store?</h2>
+    <p>SpotiBard stores the following data <strong>locally on your computer only</strong>:</p>
+    <ul>
+        <li>A Spotify authorization token (so you don't have to log in every time)</li>
+        <li>Your Spotify Developer App credentials (Client ID and Client Secret), if you provided them</li>
+        <li>Plugin settings (window position and size)</li>
+    </ul>
+    <p>All data is stored in files on your own computer. Nothing is uploaded, transmitted, or stored on any server.</p>
+
+    <h2>What data does SpotiBard share?</h2>
+    <p><strong>None.</strong> SpotiBard does not collect, transmit, or share any user data with anyone. There are no analytics, no tracking, no telemetry, and no ads. The only network communication is between your computer and Spotify's API servers.</p>
+
+    <h2>Third-party services</h2>
+    <p>SpotiBard communicates with the <a href="https://developer.spotify.com/documentation/web-api">Spotify Web API</a> to control playback and retrieve song information. Your use of Spotify is subject to <a href="https://www.spotify.com/legal/privacy-policy/">Spotify's Privacy Policy</a>.</p>
+
+    <h2>How to revoke access</h2>
+    <p>You can revoke SpotiBard's access to your Spotify account at any time:</p>
+    <ol>
+        <li>Go to <a href="https://www.spotify.com/account/apps/">spotify.com/account/apps</a></li>
+        <li>Find "SpotiBard" in the list</li>
+        <li>Click "Remove Access"</li>
+    </ol>
+    <p>You can also delete the local files (<code>.spotify_cache</code> and <code>config.json</code>) from the SpotiBard bridge folder.</p>
+
+    <h2>Open source</h2>
+    <p>SpotiBard is open source. You can review the complete source code at <a href="https://github.com/dp-vibes/SpotiBard">github.com/dp-vibes/SpotiBard</a>.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about this privacy policy? Open an issue on <a href="https://github.com/dp-vibes/SpotiBard/issues">GitHub</a>.</p>
+</body>
+</html>
