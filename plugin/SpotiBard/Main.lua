@@ -11,8 +11,8 @@ import "Turbine.UI.Lotro";
 -- Constants
 -- =========================================================================
 local DATA_SCOPE = Turbine.DataScope.Account
-local DEFAULT_WIDTH = 290
-local DEFAULT_HEIGHT = 215
+local DEFAULT_WIDTH = 300
+local DEFAULT_HEIGHT = 225
 local MIN_WIDTH = 240
 local MIN_HEIGHT = 190
 local BTN_SIZE = 28
@@ -369,27 +369,23 @@ SpotiBardMiniIcon:SetVisible(false)
 SpotiBardMiniIcon:SetOpacity(0.9)
 SpotiBardMiniIcon:SetZOrder(100)
 
-local miniLabel = Turbine.UI.Label()
-miniLabel:SetParent(SpotiBardMiniIcon)
-miniLabel:SetPosition(0, 0)
-miniLabel:SetSize(32, 32)
-miniLabel:SetBackColor(COLOR_MINI_BG)
-miniLabel:SetForeColor(COLOR_MINI_TEXT)
-miniLabel:SetFont(Turbine.UI.Lotro.Font.Verdana16)
-miniLabel:SetText("SB")
-miniLabel:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleCenter)
-miniLabel:SetMouseVisible(true)
+-- Bard icon image (non-interactive, just displays the icon)
+local miniIconImg = Turbine.UI.Control()
+miniIconImg:SetParent(SpotiBardMiniIcon)
+miniIconImg:SetPosition(0, 0)
+miniIconImg:SetSize(32, 32)
+miniIconImg:SetBackground(0x41005e6a) -- LOTRO bard NPC icon
+miniIconImg:SetMouseVisible(false) -- clicks pass through to the overlay below
 
--- Mini icon hover
-miniLabel.MouseEnter = function(s, a)
-    s:SetBackColor(COLOR_MINI_HOVER)
-end
-miniLabel.MouseLeave = function(s, a)
-    s:SetBackColor(COLOR_MINI_BG)
-end
+-- Invisible click overlay on top (handles mouse events without affecting the icon)
+local miniClickArea = Turbine.UI.Control()
+miniClickArea:SetParent(SpotiBardMiniIcon)
+miniClickArea:SetPosition(0, 0)
+miniClickArea:SetSize(32, 32)
+miniClickArea:SetMouseVisible(true)
 
--- Click mini icon to reopen
-miniLabel.MouseClick = function(s, a)
+-- Click to reopen
+miniClickArea.MouseClick = function(s, a)
     mainWindow:SetVisible(true)
     SpotiBardMiniIcon:SetVisible(false)
 end
@@ -398,23 +394,22 @@ end
 local miniDragging = false
 local miniDragX, miniDragY = 0, 0
 
-miniLabel.MouseDown = function(s, a)
+miniClickArea.MouseDown = function(s, a)
     miniDragging = true
     miniDragX = a.X
     miniDragY = a.Y
 end
 
-miniLabel.MouseMove = function(s, a)
+miniClickArea.MouseMove = function(s, a)
     if miniDragging then
         local x, y = SpotiBardMiniIcon:GetPosition()
         SpotiBardMiniIcon:SetPosition(x + a.X - miniDragX, y + a.Y - miniDragY)
     end
 end
 
-miniLabel.MouseUp = function(s, a)
+miniClickArea.MouseUp = function(s, a)
     if miniDragging then
         miniDragging = false
-        -- Save mini icon position
         settings.mx, settings.my = SpotiBardMiniIcon:GetPosition()
         saveSettings()
     end
@@ -427,16 +422,16 @@ else
     SpotiBardMiniIcon:SetPosition(settings.x, settings.y)
 end
 
--- Override the LOTRO window close to minimize instead
-mainWindow.Closing = function(sender, args)
+-- Block the default close — minimize to icon instead
+mainWindow.Closing = function()
     mainWindow:SetVisible(false)
     playlistPanelOpen = false
     playlistPanel:SetVisible(false)
-    -- Position mini icon near where the window was
     if not settings.mx then
         settings.mx, settings.my = mainWindow:GetPosition()
     end
     SpotiBardMiniIcon:SetPosition(settings.mx or settings.x, settings.my or settings.y)
+    miniIconImg:SetBackground(0x41005e6a) -- refresh bard icon
     SpotiBardMiniIcon:SetVisible(true)
 end
 

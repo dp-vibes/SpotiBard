@@ -86,9 +86,9 @@ Or use [LOTRO Plugin Compendium](http://www.lotrointerface.com/downloads/info663
 
 ### Daily Use
 
-I recommend adding SpotiBridge to your Windows Startup so you never have to think about it. Press `Win+R`, type `shell:startup`, and drop a shortcut to `bridge/Run SpotiBridge.bat` in there. It'll quietly start with Windows and sit in your system tray — even when you're not playing LOTRO, the keyboard shortcuts are handy for controlling Spotify from anywhere.
+I recommend adding SpotiBridge to your Windows Startup so you never have to think about it. Press `Win+R`, type `shell:startup`, and drop a shortcut to `bridge/run_spotibridge.bat` in there. It'll quietly start with Windows and sit in your system tray — even when you're not playing LOTRO, the keyboard shortcuts are handy for controlling Spotify from anywhere.
 
-If you don't want it starting automatically, just double-click **`Run SpotiBridge.bat`** before you play. Click **Yes** on the Windows permission prompt (needed for hotkeys to work in-game).
+If you don't want it starting automatically, just double-click **`run_spotibridge.bat`** before you play. Click **Yes** on the Windows permission prompt (needed for hotkeys to work in-game).
 
 In LOTRO: `/plugins load SpotiBard`
 
@@ -119,7 +119,7 @@ In LOTRO: `/plugins load SpotiBard`
 
 | Problem | Fix |
 |---|---|
-| "SpotiBard bridge not running" | Make sure `Run SpotiBridge.bat` is running (green tray icon) |
+| "SpotiBard bridge not running" | Make sure `run_spotibridge.bat` is running (green tray icon) |
 | "No active device" | Start playing something on Spotify first |
 | Plugin won't load | Check plugin files are in the right folder, try `/plugins refresh` |
 | Hotkeys don't work in-game | Run SpotiBridge as administrator (the bat file should prompt for this) |

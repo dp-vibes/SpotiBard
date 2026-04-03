@@ -36,15 +36,22 @@ if %errorlevel% neq 0 (
 )
 
 echo.
-echo ============================================================
-echo   Packages installed successfully!
-echo ============================================================
+echo Packages installed! Now setting up Spotify...
 echo.
-echo   Now launching SpotiBridge for first-time Spotify login...
+
+REM Run in setup mode (prompts for creds, does auth, then exits)
+python "%~dp0spotibridge.py" --setup
+if %errorlevel% neq 0 (
+    echo.
+    echo Setup failed. Check the errors above.
+    pause
+    exit /b 1
+)
+
 echo.
-echo   A browser window will open. Log in with your Spotify
-echo   account and click "Allow" to authorize SpotiBard.
-echo   (You only need to do this once!)
+echo ============================================================
+echo   SpotiBridge is starting in the background...
+echo ============================================================
 echo.
 echo   GLOBAL HOTKEYS (work anytime, even in-game):
 echo     Ctrl+Alt+Right    Next track
@@ -53,10 +60,16 @@ echo     Ctrl+Alt+Space    Play / Pause
 echo     Ctrl+Alt+Up       Volume up
 echo     Ctrl+Alt+Down     Volume down
 echo.
-echo   After this, just use "Run SpotiBridge.bat" for daily use.
-echo ============================================================
+echo   In LOTRO type: /plugins load SpotiBard
 echo.
+echo   A Windows permission prompt will appear — click Yes.
+echo   (SpotiBridge needs admin access for hotkeys to work in-game)
+echo.
+echo   This window will close in 10 seconds.
+echo   SpotiBridge will be running in your system tray (green icon).
+echo ============================================================
 
-python "%~dp0spotibridge.py"
+REM Launch the bridge properly (admin + no terminal)
+call "%~dp0run_spotibridge.bat"
 
-pause
+timeout /t 10 >nul

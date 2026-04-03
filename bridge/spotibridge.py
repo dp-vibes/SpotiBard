@@ -661,12 +661,12 @@ def playlist_loop(sp: spotipy.Spotify, stop_event: threading.Event) -> None:
 # ---------------------------------------------------------------------------
 
 def main() -> None:
+    setup_mode = "--setup" in sys.argv
+
     # Load saved credentials or prompt for them
     config = load_config()
     if config is None:
         prompt_credentials_friendly()
-    else:
-        print("Loaded saved Spotify credentials from config.json")
 
     config = load_config()
     client_id = config["client_id"]
@@ -682,6 +682,12 @@ def main() -> None:
         print(f"ERROR: Spotify authentication failed: {exc}")
         print("Try deleting config.json and .spotify_cache, then run again.")
         sys.exit(1)
+
+    # In setup mode, just do creds + auth then exit
+    if setup_mode:
+        print()
+        print("Setup complete! SpotiBridge will now launch in the background.")
+        return
 
     # Check that PluginData directories exist
     account_dirs = get_account_dirs()
