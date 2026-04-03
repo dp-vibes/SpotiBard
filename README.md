@@ -2,13 +2,44 @@
 
 Control Spotify from inside Lord of the Rings Online — without alt-tabbing.
 
-SpotiBard is a two-part system: a companion app that runs in your Windows system tray and a LOTRO plugin that shows a floating in-game panel with your current song, artist, album, and playlist. Use **global keyboard shortcuts** to skip tracks, play/pause, and adjust volume — instantly, even while playing.
+SpotiBard puts a floating "now playing" panel inside LOTRO showing your current track, artist, album, and playlist — plus lets you browse and switch between all your Spotify playlists without leaving the game. It also gives you **instant global keyboard shortcuts** to skip tracks, play/pause, and adjust volume, even mid-raid.
 
-## How It Works
+> **This is my first LOTRO plugin.** I built it because I wanted it and couldn't find anything like it. Feedback is very welcome — please be kind!
 
-The companion app (SpotiBridge) talks to Spotify and provides global hotkeys that work anywhere, even while LOTRO is in focus. It also feeds song information to the in-game plugin panel.
+---
 
-**Global Hotkeys (instant, recommended):**
+## Read This First
+
+**SpotiBard is not a typical LOTRO plugin.** It has two parts:
+
+1. **SpotiBridge** — a small companion app that runs in your Windows system tray and talks to Spotify
+2. **SpotiBard plugin** — the in-game panel that shows what's playing
+
+Both need to be running. The plugin alone does nothing without the bridge.
+
+**You need Spotify Premium.** Free Spotify accounts can't control playback through the API. That's Spotify's rule, not ours.
+
+**You need to set up a free Spotify Developer App.** Takes about 2 minutes. If you already have one from another project, you can reuse it.
+
+**You need Python installed.** [Download here](https://www.python.org/downloads/) — check "Add Python to PATH" during install.
+
+### About the In-Game Panel Delay
+
+Let's be upfront: the in-game panel has a **~15 second delay** on display updates and button clicks. This is a hard limitation of LOTRO's plugin data system. We spent days trying every possible workaround. There is no fix — it's baked into the game engine.
+
+**But here's the thing:** SpotiBard also gives you **global keyboard shortcuts that work instantly** — skip, pause, volume, all without leaving the game. The hotkeys are how you control things. The in-game panel is your "now playing" display that shows your track info and lets you browse your playlists.
+
+Let's be real — the important part is seeing what's playing and being able to change it without alt-tabbing out of LOTRO. Who cares if the display takes a few seconds to catch up, right?
+
+If you need instant everything, we're planning a standalone overlay version down the road that won't have any of these limitations. But for now, this works and it's pretty cool.
+
+**If you're a plugin developer and know a faster way to read external data from a LOTRO Lua plugin, please reach out! We'd love to be wrong about this.**
+
+---
+
+## Global Hotkeys
+
+These work **instantly**, even while LOTRO has focus:
 
 | Shortcut | Action |
 |---|---|
@@ -18,155 +49,112 @@ The companion app (SpotiBridge) talks to Spotify and provides global hotkeys tha
 | `Ctrl+Alt+Up` | Volume up |
 | `Ctrl+Alt+Down` | Volume down |
 
-**In-Game Panel:** Shows what's playing (song, artist, album, playlist) with a progress bar. The panel also has clickable buttons and a playlist browser, though these have a ~15 second delay due to how LOTRO's plugin system works. The hotkeys are the way to go for controlling playback.
+---
 
-## Requirements
+## Install
 
-- **Windows**
-- **Spotify Premium** account (required for playback control)
-- **LOTRO** installed and logged in at least once
-- A free **Spotify Developer App** (we walk you through creating one — takes 2 minutes)
-- **Python 3.8+** only if using the Python version — not needed if using SpotiBridge.exe ([Download Python here](https://www.python.org/downloads/) — check "Add Python to PATH")
+### Plugin
 
-## Installation
-
-### Step 1: Download SpotiBard
-
-Download or clone this repository to your computer. You can put it anywhere.
-
-### Step 2: Install the LOTRO Plugin
-
-Copy the `plugin/SpotiBard/` folder into your LOTRO plugins directory:
+Unzip and copy the `plugin/SpotiBard/` folder to your Plugins directory:
 
 ```
-%USERPROFILE%\Documents\The Lord of the Rings Online\Plugins\
+Documents\The Lord of the Rings Online\Plugins\
 ```
 
-After copying, you should have:
+Or use [LOTRO Plugin Compendium](http://www.lotrointerface.com/downloads/info663-LOTROPluginCompendium.html) to install and keep it updated.
 
-```
-Documents\The Lord of the Rings Online\Plugins\SpotiBard\
-    SpotiBard.plugin
-    Main.lua
-    SpotiBard.lua
-```
-
-### Step 3: Create a Spotify Developer App (free, ~2 minutes)
-
-SpotiBard needs a free Spotify Developer App to talk to Spotify. This sounds technical but it's quick:
+### Spotify Developer App (one time, ~2 minutes)
 
 1. Go to [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard) and log in with your Spotify account
 2. Click **Create App**
 3. Fill in:
    - **App name:** SpotiBard (or anything)
    - **App description:** anything
-   - **Redirect URI:** `http://127.0.0.1:8888/callback` (copy this exactly, then click **Add**)
-   - Check the **Web API** box
-   - Click **Save**
-4. On your app page, click **Settings**
-5. Copy your **Client ID** and click "View client secret" to copy your **Client Secret**
+   - **Redirect URI:** `http://127.0.0.1:8888/callback` — copy/paste exactly, click **Add**
+   - Check **Web API**, click **Save**
+4. Click **Settings**, copy your **Client ID** and **Client Secret**
 
-You'll paste these into SpotiBard in the next step.
+> Already have a Spotify Developer App from another project? Just add `http://127.0.0.1:8888/callback` to its Redirect URIs and use the same credentials.
 
-### Step 4: First-Time Setup
+### Bridge Setup (one time)
 
 1. Open the `bridge/` folder
-2. Double-click **`setup.bat`** (Python version) or **`Run SpotiBridge.bat`** (.exe version)
-3. Paste your **Client ID** and **Client Secret** when prompted
-4. A browser window opens — click **Allow** to authorize
-5. Done! Your credentials are saved — you won't need to do this again.
+2. Double-click **`setup.bat`**
+3. Paste your Client ID and Client Secret when prompted
+4. A browser opens — click **Allow** to authorize
+5. Done. Credentials are saved.
 
-### Step 5: Daily Use
+### Daily Use
 
-1. Double-click **`run_spotibridge.bat`** in the `bridge/` folder
-2. A green music note icon appears in your system tray — that means it's running
-3. Launch LOTRO and type in chat: `/plugins load SpotiBard`
-4. Use the hotkeys to control Spotify. The in-game panel shows what's playing.
-5. When you're done, right-click the green tray icon and choose **Quit**
+I recommend adding SpotiBridge to your Windows Startup so you never have to think about it. Press `Win+R`, type `shell:startup`, and drop a shortcut to `bridge/Run SpotiBridge.bat` in there. It'll quietly start with Windows and sit in your system tray — even when you're not playing LOTRO, the keyboard shortcuts are handy for controlling Spotify from anywhere.
 
-> **Tip:** Type `/spotibard` in-game to show/hide the panel.
+If you don't want it starting automatically, just double-click **`Run SpotiBridge.bat`** before you play. Click **Yes** on the Windows permission prompt (needed for hotkeys to work in-game).
 
-## Features
+In LOTRO: `/plugins load SpotiBard`
 
-- **Global Hotkeys** — Skip, play/pause, and adjust volume instantly with keyboard shortcuts. Works even while LOTRO is in focus.
-- **Now Playing Display** — See song title, artist, album, and playlist name in-game.
-- **Progress Bar** — Visual indicator of where you are in the current track.
-- **Playlist Browser** — Browse and switch between your Spotify playlists from the in-game panel.
-- **Draggable & Resizable** — Position and size the panel however you like. Settings are saved.
-- **System Tray** — The companion app runs quietly in the background. No terminal window.
-- **LOTRO-Native Look** — Uses LOTRO's own window styling so it fits right in.
+---
 
-## Being Honest: What Works Great and What Doesn't
+## In-Game Panel
 
-Let's be upfront about what to expect.
+- **Drag** the title bar to move it anywhere
+- **Resize** by dragging the `///` handle in the bottom-right corner
+- **Close** with the X button — it shrinks to a small "SB" icon you can click to reopen
+- **Toggle** with `/spotibard` in chat
+- **Browse playlists** — click "Playlists" to see all your Spotify playlists and switch between them
+- Position and size are saved between sessions
 
-**What works great:**
-- Global hotkeys are **instant**. Skip, pause, volume — no delay at all.
-- The in-game panel looks native and shows your current song info.
-- Playlist browsing works from inside the game.
-- Everything runs quietly in the system tray.
+---
 
-**What's not perfect:**
-- The in-game panel updates every **~15 seconds**. This is a hard limitation of LOTRO's plugin data system — the game engine queues file reads on a slow background thread, and there's no way around it. We tried everything (trust us, we REALLY tried).
-- The in-game buttons (skip, pause, etc.) also have this ~15 second delay for the same reason. They work, just slowly.
+## Known Issues / Limitations
 
-**The bottom line:** Use the **hotkeys** for controlling playback (they're instant), and enjoy the in-game panel as a "now playing" display that updates periodically. It's not perfect, but it's the best that's possible within LOTRO's plugin sandbox.
+- In-game panel updates every ~15 seconds (LOTRO engine limitation, not a bug)
+- In-game buttons have the same ~15 second delay
+- Plugin can't be unloaded without restarting LOTRO (timer cleanup issue)
+- If you restart SpotiBridge while LOTRO is running, you need to restart LOTRO too (they lose sync)
+- Long song titles get cut off — resize the panel wider to see more
 
-If you're a plugin developer and know a faster way to read external data from a LOTRO Lua plugin, we'd love to hear from you! Open an issue on GitHub or find us on the LOTROInterface forums.
+---
 
 ## Troubleshooting
 
-### "SpotiBard bridge not running"
-The plugin can't find the companion app's data. Make sure `run_spotibridge.bat` is running and you see the green tray icon.
+| Problem | Fix |
+|---|---|
+| "SpotiBard bridge not running" | Make sure `Run SpotiBridge.bat` is running (green tray icon) |
+| "No active device" | Start playing something on Spotify first |
+| Plugin won't load | Check plugin files are in the right folder, try `/plugins refresh` |
+| Hotkeys don't work in-game | Run SpotiBridge as administrator (the bat file should prompt for this) |
+| Authentication failed | Delete `bridge/.spotify_cache` and `bridge/config.json`, run setup again |
+| Display stuck for over a minute | Restart SpotiBridge, then restart LOTRO |
+| Debug output needed | Use `run_spotibridge_debug.bat` to see log messages |
 
-### "No active device"
-Spotify isn't playing on any device. Start playing something on Spotify first.
-
-### Plugin doesn't show up in-game
-- Make sure the plugin files are in the correct folder (see Step 2)
-- Try `/plugins refresh` then `/plugins load SpotiBard`
-
-### Hotkeys not working
-- SpotiBridge needs administrator privileges for hotkeys to work while a game is running. The launch scripts request this automatically — click "Yes" on the Windows permission prompt.
-- Make sure no other app is using the same hotkey combinations.
-
-### Authentication failed
-- Delete the `bridge/.spotify_cache` file and try again
-- If using custom credentials, also delete `bridge/config.json`
-
-### Controls not responding
-- Make sure you have Spotify Premium (free accounts can't control playback)
-- Make sure Spotify is actively playing on a device
-
-### Need to see debug output?
-Use `run_spotibridge_debug.bat` instead — it opens a terminal window showing all log messages.
+---
 
 ## For Developers
 
-SpotiBard uses a file-based communication architecture because LOTRO's Lua plugin sandbox blocks all network access and standard file I/O.
-
-**Architecture:**
+File-based communication architecture (LOTRO's Lua sandbox blocks all network access and file I/O):
 
 ```
 Spotify API  <-->  SpotiBridge (Python)  <-->  .plugindata files  <-->  LOTRO Lua Plugin
                    + Global Hotkeys
 ```
 
-- The bridge writes state to rotating sequential keys (`SBS0.plugindata`, `SBS1.plugindata`, ...) plus a sync pointer (`SBSync.plugindata`)
-- The plugin reads these via `Turbine.PluginData.Load` with async callbacks
-- Commands go from plugin to bridge via `SpotiBardCommand.plugindata`
-- The ~15 second delay is caused by LOTRO's async PluginData callback queue
+- Bridge writes state to rotating keys (`SBS0.plugindata`, `SBS1.plugindata`, ...) + sync pointer (`SBSync.plugindata`)
+- Plugin reads via `Turbine.PluginData.Load` async callbacks
+- Commands go plugin → bridge via `SpotiBardCommand.plugindata`
+- ~15s delay = LOTRO's async PluginData callback queue. If you know a faster path, please open an issue.
 
-All shared files live in: `%USERPROFILE%\Documents\The Lord of the Rings Online\PluginData\<account>\AllServers\`
+---
 
-## Credits & License
+## Privacy
 
-MIT License
+All data stays on your computer. Nothing is uploaded, collected, or shared. Full policy: [djshiggl.es/spotibard/privacy](https://www.djshiggl.es/spotibard/privacy)
 
-Built by [dp-vibes](https://github.com/dp-vibes)
+---
 
-Built with:
-- [spotipy](https://spotipy.readthedocs.io/) — Spotify Web API for Python
-- [pystray](https://github.com/moses-palmer/pystray) — System tray icons
-- [keyboard](https://github.com/boppreh/keyboard) — Global hotkeys
-- [Turbine](https://www.lotrointerface.com/) — LOTRO's Lua plugin API
+## Credits
+
+This is my first LOTRO plugin. Built it because I wanted it and figured others might too. If it breaks, be gentle. If it works, tell your kinship.
+
+MIT License — Built by [dp-vibes](https://github.com/dp-vibes)
+
+[spotipy](https://spotipy.readthedocs.io/) | [pystray](https://github.com/moses-palmer/pystray) | [keyboard](https://github.com/boppreh/keyboard) | [Turbine](https://www.lotrointerface.com/)
